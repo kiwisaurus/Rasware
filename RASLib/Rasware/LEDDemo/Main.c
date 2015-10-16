@@ -3,7 +3,7 @@
 #include <RasLib/inc/common.h>
 #include <RasLib/inc/gpio.h>
 #include <RASLib/inc/time.h>
-
+*/ test /*
 tBoolean led_on;
 
 void blink(void){
