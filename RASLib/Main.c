@@ -15,7 +15,7 @@ void InitMotors(void){
 
 void main(void){
 	InitMotors();
-	InitializeSystemTime(void);
+	InitializeSystemTime();
 	SetMotor(Motors[0], 0.5f);
 	SetMotor(Motors[1], 0.5f);
 	while(GetTime()<10.0f){
