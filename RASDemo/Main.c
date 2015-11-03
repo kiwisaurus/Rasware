@@ -108,4 +108,7 @@ void main(void){
 	}
 	SetMotor(Motors[0], 0.0f);
 	SetMotor(Motors[1], 0.0f);
+	while(1){
+	}
+	}
 }
