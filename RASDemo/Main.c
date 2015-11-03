@@ -103,7 +103,7 @@ void main(void){
 	InitMotors();
 	InitializeSystemTime();
 	SetMotor(Motors[0], 0.5f);
-	SetMotor(Motors[1], 0.2f);
+	SetMotor(Motors[1], 0.5f);
 	while(GetTime()<10.0f){
 	}
 	SetMotor(Motors[0], 0.0f);
