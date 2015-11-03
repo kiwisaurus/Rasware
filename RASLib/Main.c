@@ -1,5 +1,6 @@
 #include <RASLib/inc/common.h>
 #include <RASLib/inc/motor.h>
+#include <RASLib/inc/time.h>
 
 static tMotor *Motors[2];
 static tBoolean initialized = false;
