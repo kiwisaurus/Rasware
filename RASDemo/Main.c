@@ -124,7 +124,7 @@ void main(void){
 		if((ADCRead(adc[0]))>2.0f){
 			SetMotor(Motors[0], 0.7f);
 			SetMotor(Motors[1], 0.2f);
-			while((ADCRead(adc[0]))>2.0f)){}
+			while((ADCRead(adc[0]))>2.0f){}
 		}
 		else if((ADCRead(adc[1]))>2.9f){
 			SetMotor(Motors[0], 0.4f);
