@@ -87,7 +87,7 @@ int main(void) {
 #include <RASLib/inc/motor.h>
 #include <RASLib/inc/adc.h>
 #include <RASLib/inc/time.h>
-#inlcude <stdio.h>
+#include <stdio.h>
 
 static tMotor *Motors[2];
 static tADC *adc[2];
