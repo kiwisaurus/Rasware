@@ -100,9 +100,9 @@ void InitMotors(void){
 		initialized[0] = true;
 
 		//right
-		Motors[0] = InitializeServoMotor(PIN_A5, true);
+		Motors[0] = InitializeServoMotor(PIN_A5, false);
 		//left
-		Motors[1] = InitializeServoMotor(PIN_A6, false);
+		Motors[1] = InitializeServoMotor(PIN_A6, true);
 	}
 }
 
