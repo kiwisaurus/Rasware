@@ -123,7 +123,7 @@ void main(void){
 	while(1){
 		if((ADCRead(adc[0]))>2.0f){
 			SetMotor(Motors[0], 0.7f);
-			SetMotor(Motors[1], 0.0f);
+			SetMotor(Motors[1], -0.5f);
 			while((ADCRead(adc[0]))>2.0f){}
 		}
 		else if((ADCRead(adc[1]))>2.9f){
