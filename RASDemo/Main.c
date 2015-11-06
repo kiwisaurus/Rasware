@@ -123,20 +123,20 @@ void main(void){
 	while(1){
 		if((ADCRead(adc[0]))>2.0f){
 			SetMotor(Motors[0], 0.7f);
-			SetMotor(Motors[1], 0.2f);
+			SetMotor(Motors[1], 0.0f);
 			while((ADCRead(adc[0]))>2.0f){}
 		}
 		else if((ADCRead(adc[1]))>2.9f){
-			SetMotor(Motors[0], 0.4f);
-			SetMotor(Motors[1], 0.6f);
+			SetMotor(Motors[0], 0.7f);
+			SetMotor(Motors[1], 0.3f);
 		}
 		else if((ADCRead(adc[1])<1.0f)){
-			SetMotor(Motors[0], 0.6f);
-			SetMotor(Motors[1], 0.4f);
+			SetMotor(Motors[0], 0.3f);
+			SetMotor(Motors[1], 0.7f);
 		}
 		else{
-			SetMotor(Motors[0], 0.5f);
-			SetMotor(Motors[1], 0.5f);
+			SetMotor(Motors[0], 0.7f);
+			SetMotor(Motors[1], 0.7f);
 		}
 	}
 }
