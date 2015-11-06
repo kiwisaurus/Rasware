@@ -122,21 +122,21 @@ void main(void){
 	InitializeSystemTime();
 	while(1){
 		if((ADCRead(adc[0]))>2.0f){
-			setMotor(Motors[0], 0.7f);
-			setMotor(Motors[1], 0.2f);
-			while(ADCRead(adc[0]>2.0f)){}
+			SetMotor(Motors[0], 0.7f);
+			SetMotor(Motors[1], 0.2f);
+			while((ADCRead(adc[0]))>2.0f)){}
 		}
 		else if((ADCRead(adc[1]))>2.9f){
-			setMotor(Motors[0], 0.4f);
-			setMotor(Motors[1], 0.6f);
+			SetMotor(Motors[0], 0.4f);
+			SetMotor(Motors[1], 0.6f);
 		}
 		else if((ADCRead(adc[1])<1.0f)){
-			setMotor(Motors[0], 0.6f);
-			setMotor(Motors[1], 0.4f);
+			SetMotor(Motors[0], 0.6f);
+			SetMotor(Motors[1], 0.4f);
 		}
 		else{
-			setMotor(Motors[0], 0.5f);
-			setMotor(Motors[1], 0.5f);
+			SetMotor(Motors[0], 0.5f);
+			SetMotor(Motors[1], 0.5f);
 		}
 	}
 }
