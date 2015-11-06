@@ -85,29 +85,54 @@ int main(void) {
 */
 #include <RASLib/inc/common.h>
 #include <RASLib/inc/motor.h>
+#include <RASLib/inc/adc.h>
 #include <RASLib/inc/time.h>
 
 static tMotor *Motors[2];
-static tBoolean initialized = false;
+static tADC *adc[2];
+//[0] wheels
+//[1] IR Sensor
+static tBoolean initialized[2] = {false,false};
+
 
 void InitMotors(void){
-	if(!initialized){
-		initialized = true;
+	if(!initialized[0]){
+		initialized[0] = true;
 
-		Motors[0] = InitializeServoMotor(PIN_A5, false);
-		Motors[1] = InitializeServoMotor(PIN_A6, true);
+		//right
+		Motors[0] = InitializeServoMotor(PIN_A5, true);
+		//left
+		Motors[1] = InitializeServoMotor(PIN_A6, false);
+	}
+}
+
+void InitIRSensors(void){
+	if(!initialized[1]){
+		initialized[1] = true;
+		
+		//front
+		adc[0] = InitializeADC(PIN_D0);
+		//left
+		adc[1] = InitializeADC(PIN_D1);
 	}
 }
 
 void main(void){
 	InitMotors();
 	InitializeSystemTime();
-	SetMotor(Motors[0], 0.5f);
-	SetMotor(Motors[1], 0.5f);
-	while(GetTime()<10.0f){
-	}
-	SetMotor(Motors[0], 0.0f);
-	SetMotor(Motors[1], 0.0f);
 	while(1){
+		if(ADCRead(adc[0])>2.0f){
+			setMotor(Motors[0], 0.7f);
+			setMotor(Motors[1], 0.2f);
+			while(ADCRead(adc[0]>2.0f)){}
+		}
+		else if(ADCRead(adc[1])>2.9f){
+			setMotor(Motors[0], 0.4f);
+			setMotor(Motors[1], 0.6f);
+		}
+		else if(ADCRead(adc[1]<1.0f)){
+			setMotor(Motors[0], 0.6f);
+			setMotor(Motors[1], 0.4f);
+		}
 	}
 }
