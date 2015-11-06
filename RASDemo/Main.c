@@ -121,6 +121,7 @@ void main(void){
 	InitMotors();
 	InitializeSystemTime();
 	while(1){
+		printf("%f/n", ADCRead(adc[1]));
 		if((ADCRead(adc[0]))>2.0f){
 			SetMotor(Motors[0], 0.7f);
 			SetMotor(Motors[1], -0.5f);
@@ -128,12 +129,12 @@ void main(void){
 			SetMotor(Motors[0], 0.7f);
 			SetMotor(Motors[1], 0.7f);
 		}
-		else if((ADCRead(adc[1]))>2.9f){
+		else if((ADCRead(adc[1]))>1.8f){
 			SetMotor(Motors[0], 0.7f);
-			SetMotor(Motors[1], 0.3f);
+			SetMotor(Motors[1], -0.3f);
 		}
-		else if((ADCRead(adc[1])<1.0f)){
-			SetMotor(Motors[0], 0.3f);
+		else if((ADCRead(adc[1])<1.8f)){
+			SetMotor(Motors[0], -0.3f);
 			SetMotor(Motors[1], 0.7f);
 		}
 		else{
