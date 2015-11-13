@@ -55,7 +55,17 @@ int main(void){
             SetMotor(Motors[0], 1.0f);
             SetMotor(Motors[1], 1.0f);
         }*/
-        SetMotor(Motors[0], 1.0f);
-        SetMotor(Motors[1], 1.0f);
+        if(ADCRead(Adc[0]) >1.0f){
+            SetMotor(Motors[0], 0.0f);
+            SetMotor(Motors[1], 0.0f);
+        }
+        else if(ADCRead(Adc[1]) >1.0f){
+            SetMotor(Motors[0], 1.0f);
+            SetMotor(Motors[1], 1.0f);
+        }
+        else{
+            SetMotor(Motors[0], -1.0f);
+            SetMotor(Motors[1], -1.0f);
+        }
     }
 }
