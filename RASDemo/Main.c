@@ -1,84 +1,55 @@
-#include "RASDemo.h"
-
 #include <RASLib/inc/common.h>
 #include <RASLib/inc/gpio.h>
 #include <RASLib/inc/time.h>
+#include <RASLib/inc/motor.h>
+#include <RASLib/inc/adc.h>
 
-tBoolean led_on;
+static tBoolean initialized[2] = {false,false};
+static tMotor *Motors[2];
+static tADC #Adc[2];
 
-void blink(void) {
-    SetPin(PIN_F1, led_on);
-    SetPin(PIN_F3, !led_on);
-
-    led_on = !led_on;
+void initMotors(void){
+    if(!initialized[0]){
+        initialized[0] = true;
+        
+        //left wheel
+        Motors[0] = InitializeServoMotor(PIN_B6, true);
+        //right wheel
+        Motors[1] = InitializeServoMotor(PIN_B7, false);
+    }
 }
 
-int main(void) {  
-    char ch;
-
-    CallEvery(blink, 0, 0.25f);
-
-    while (1) {
-        Printf("\nRAS Demo for Robotathon 2013\n"
-               "  0=UART Demo\n"
-	       "  1=Motor Demo\n"
-               "  2=Servo Demo\n"
-	       "  3=I2C Line Sensor Demo\n"
-               "  4=IR Sensor Demo\n"
-	       "  5=Encoders Demo\n"
-               "  6=GPIO Demo\n"
-	       "  7=GPIO Line Sensor Demo\n"
-               "  8=Sonar Demo\n"
-               ">> ");
+void initADC(void){
+     if(!initialized[1]){
+         initialized[1] = true;
         
-        // Read input from user
-        ch = Getc();
-        Printf("\n");
+        //front ir
+        Adc[0] = InitializeADC(PIN_D0);
+        //left ir
+        Adc[1] = InitializeADC(PIN_D1);
+    }
+}
 
-        switch(ch) {
-            case '0':
-                Printf("\nUART Demo\n");
-                uartDemo();                 
-                break;
-            case '1':
-                Printf("\nMotor Demo\n");
-                initMotors();
-                motorDemo(); 
-                break;
-            case '2':
-                Printf("\nServo Demo\n");
-                initServo();
-                servoDemo();     
-                break;
-            case '3':
-                Printf("\nLine Sensor Demo\n");
-                initI2CLineSensor();          
-                i2cLineSensorDemo();    
-                break;
-            case '4':                            
-                Printf("\nIR Sensor Demo\n");
-                initIRSensor();
-                IRSensorDemo();     
-                break;
-            case '5':
-                Printf("\nEncoders Demo\n");
-                initEncoders();
-                encoderDemo();
-                break;
-            case '6':
-                Printf("\nGPIO Demo\n");
-                gpioDemo();
-                break;
-            case '7':
-                Printf("\nGPIO Line Sensor Demo\n");
-                initGPIOLineSensor();
-                gpioLineSensorDemo();
-                break;
-            case '8':
-                Printf("\nSonar Demo\n");
-                initSonar();
-                sonarDemo();
-                break;
+
+int main(void){
+    initMotors();
+    initADC();
+    while(1){
+        while(ADCRead(adc[0] > 2.4f){
+            SetMotor(Motors[0], 1.0f);
+            SetMotor(Motors[1], 0.0f);
+        }
+        if(ADCRead(adc[1] < 2.0f){
+            SetMotor(Motors[0], 0.0f);
+            SetMotor(Motors[1], 1.0f);
+        }
+        else if(ADCRead(adc[1]>2.8f){
+            SetMotor(Motors[0], 1.0f);
+            SetMotor(Motors[1], 0.0f);
+        }
+        else{
+            SetMotor(Motors[0], 1.0f);
+            SetMotor(Motors[1], 1.0f);
         }
     }
 }
