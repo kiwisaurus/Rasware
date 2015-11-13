@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <RASLib/inc/common.h>
 #include <RASLib/inc/gpio.h>
 #include <RASLib/inc/time.h>
@@ -24,7 +25,7 @@ void initADC(void){
          initialized[1] = true;
         
         //front ir
-        Adc[0] = InitializeADC(PIN_D0);
+        Adc[0] = InitializeADC(PIN_D2);
         //left ir
         Adc[1] = InitializeADC(PIN_D1);
     }
@@ -55,17 +56,27 @@ int main(void){
             SetMotor(Motors[0], 1.0f);
             SetMotor(Motors[1], 1.0f);
         }*/
-        if(ADCRead(Adc[0]) >2.0f){
-            SetMotor(Motors[0], 0.0f);
-            SetMotor(Motors[1], 0.0f);
-        }
-        else if(ADCRead(Adc[1]) >2.0f){
+        if(ADCRead(Adc[0])> 0.5f){
+            while(ADCRead(Adc[0]) >0.5){
             SetMotor(Motors[0], 1.0f);
+            SetMotor(Motors[1], 0.0f);
+            }
+        }
+        else if(ADCRead(Adc[1]) > 2.0f){
+            while(ADCRead(Adc[1]) > 0.8f){
+            SetMotor(Motors[0], 1.0f);
+            SetMotor(Motors[1], 0.5f);
+            }
+        }
+        else if(ADCRead(Adc[1]) <0.5f){
+            while(ADCRead(Adc[1]) <0.5f){
+            SetMotor(Motors[0], 0.5f);
             SetMotor(Motors[1], 1.0f);
+            }
         }
         else{
-            SetMotor(Motors[0], -1.0f);
-            SetMotor(Motors[1], -1.0f);
+            SetMotor(Motors[0], 1.0f);
+            SetMotor(Motors[1], 1.0f);
         }
     }
 }
