@@ -35,7 +35,7 @@ int main(void){
     initMotor();
     initADC();
     while(1){
-        while(ADCRead(Adc[0]) > 2.4f){
+       /* while(ADCRead(Adc[0]) > 3.0f){
             SetMotor(Motors[0], 1.0f);
             SetMotor(Motors[1], 0.0f);
         }
@@ -45,7 +45,7 @@ int main(void){
             SetMotor(Motors[1], 1.0f);
             }
         }
-        else if(ADCRead(Adc[1])>2.8f){
+        else if(ADCRead(Adc[1])>2.7f){
             while(ADCRead(Adc[1]) >2.8f){
             SetMotor(Motors[0], 1.0f);
             SetMotor(Motors[1], -1.0f);
@@ -54,6 +54,8 @@ int main(void){
         else{
             SetMotor(Motors[0], 1.0f);
             SetMotor(Motors[1], 1.0f);
-        }
+        }*/
+        SetMotor(Motors[0], 1.0f);
+        SetMotor(Motors[1], 1.0f);
     }
 }
