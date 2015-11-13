@@ -30,53 +30,26 @@ void initADC(void){
         Adc[1] = InitializeADC(PIN_D1);
     }
 }
-
+float SpeedFix(float speed){
+    if(speed<0.0f)
+        return 0.0f;
+    else if(speed>1.0f)
+        return 1.0f;
+    else
+        return speed;
+}
 
 int main(void){
     initMotor();
     initADC();
     while(1){
-       /* while(ADCRead(Adc[0]) > 3.0f){
-            SetMotor(Motors[0], 1.0f);
-            SetMotor(Motors[1], 0.0f);
-        }
-        if(ADCRead(Adc[1]) < 2.0f){
-            while(ADCRead(Adc[1]) <2.0f){
-            SetMotor(Motors[0], -1.0f);
-            SetMotor(Motors[1], 1.0f);
-            }
-        }
-        else if(ADCRead(Adc[1])>2.7f){
-            while(ADCRead(Adc[1]) >2.8f){
-            SetMotor(Motors[0], 1.0f);
-            SetMotor(Motors[1], -1.0f);
-            }
-        }
-        else{
-            SetMotor(Motors[0], 1.0f);
-            SetMotor(Motors[1], 1.0f);
-        }*/
-        if(ADCRead(Adc[0])> 0.5f){
-            while(ADCRead(Adc[0]) >0.5){
-            SetMotor(Motors[0], 1.0f);
-            SetMotor(Motors[1], 0.0f);
-            }
-        }
-        else if(ADCRead(Adc[1]) > 2.0f){
-            while(ADCRead(Adc[1]) > 0.8f){
-            SetMotor(Motors[0], 1.0f);
-            SetMotor(Motors[1], 0.5f);
-            }
-        }
-        else if(ADCRead(Adc[1]) <0.5f){
-            while(ADCRead(Adc[1]) <0.5f){
-            SetMotor(Motors[0], 0.5f);
-            SetMotor(Motors[1], 1.0f);
-            }
-        }
-        else{
-            SetMotor(Motors[0], 1.0f);
-            SetMotor(Motors[1], 1.0f);
-        }
+        float speedL=0.3f+ADCRead(Adc[1])/2-ADCRead(Adc[0])/3;
+        float speedR=0.3f-ADCRead(Adc[1])/2+ADCRead(Adc[0])/3;
+        
+        speedL= SpeedFix(speedL);
+        speedR= SpeedFix(speedR);
+
+        SetMotor(Motors[0], speedL);
+        SetMotor(Motors[1], speedR);
     }
 }
