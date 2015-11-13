@@ -8,7 +8,7 @@ static tBoolean initialized[2] = {false,false};
 static tMotor *Motors[2];
 static tADC *Adc[2];
 
-void initMotors(void){
+void initMotor(void){
     if(!initialized[0]){
         initialized[0] = true;
         
@@ -32,7 +32,7 @@ void initADC(void){
 
 
 int main(void){
-    initMotors();
+    initMotor();
     initADC();
     while(1){
         while(ADCRead(Adc[0]) > 2.4f){
