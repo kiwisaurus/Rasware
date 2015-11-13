@@ -13,9 +13,9 @@ void initMotor(void){
         initialized[0] = true;
         
         //left wheel
-        Motors[0] = InitializeServoMotor(PIN_B6, true);
+        Motors[0] = InitializeServoMotor(PIN_A6, true);
         //right wheel
-        Motors[1] = InitializeServoMotor(PIN_B7, false);
+        Motors[1] = InitializeServoMotor(PIN_A5, false);
     }
 }
 
