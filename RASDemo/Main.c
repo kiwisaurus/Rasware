@@ -108,13 +108,15 @@ tBoolean IntersectCheck(float *fLine){
         return true;
     return false;
 }
+
 void kill(void){
     SetMotor(Motors[0], 0.0f);
     SetMotor(Motors[1], 0.0f);
     while(1){}
 }
+
 int main(void){
-    CallIn(kill, null, 120);
+    CallIn(kill(), null, 120);
     InitializedSystemTime(); //not accurate for long times
     initMotor();
     initADC();
