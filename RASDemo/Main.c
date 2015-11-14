@@ -83,14 +83,16 @@ void WallFollow(void){
     SetMotor(Motors[0] , SATURATE(0.0f, speedL, 1.0f));
     SetMotor(Motors[1], SATURATE(0.0f, speedR, 1.0f));
 }
+void lineThreshold(float *fLine[8]){
+    float treshold = 0.4f;//change this
+    for(int i =0; i<8; i++){
+        if(fLine[i]>=threshold)
+            fLine[i] =1; //pseudo boolean
+}
 
-void LineFollow(float fLine[8]){
+void LineFollow(float *fLine[8]){
     float speedL = 1.0f;
     float speedR = 1.0f;
-
-    for(int i=0; i<8; i++)
-        if(fLine[i] >0.3f)
-            fLine[i] = 1;
 
     speedL = speedL-fLine[7]*0.05f*8-fLine[6]*0.05f*4-fLine[5]*0.05f*2;
     speedR = speedR-fLine[0]*0.05f*8-fLine[1]*0.05f*4-fLine[2]*0.05f*2;
@@ -98,15 +100,128 @@ void LineFollow(float fLine[8]){
     SetMotor(Motors[0], SATURATE(0.0f, speedL, 1.0f));
     SetMotor(Motors[1], SATURATE(0.0f, speedR, 1.0f));
 }
+tBoolean IntersectCheck(float *fLine[8]){
+    int sum =0;
+    for(int i =0;i<8;i++)
+        sum = sum+fLine[i];
+    if(sum>3) //assumes the array has been through lineThreshold()
+        return true;
+    return false;
+}
+
 int main(void){
+    InitializedSystemTime(); //not accurate for long times
     initMotor();
     initADC();
     initGLine();
     LineSensorReadContinuously(gls, 0.2f);
-    float fLine[8];
+    float *fLine[8];
+    int stage =1;
     tBoolean tLine[8];
+    int intersects =0;
+
+    char*state[7] = {       //state machine
+        "START", "LINE_2/5", 
+        "SCORE_1/4","SCORE_3/6",
+        "WALL_6/5/4","WALL_1/2/3",
+        "RETURN"
+    };
+    int statePos = 0; //used to traverse states
+
+
     while(1){
-        LineSensorReadArray(gls, fLine);
-        
+        switch(state[statePos]){
+
+        case "START":
+            LineSensorReadArray(gls, fLine);
+            LineThreshold(fLine); //call everytime we read array
+            if(IntersectCheck(fLine)){
+                statePos = 1; //advance state
+                intersect++;
+                float time1 = GetTime();
+                SetMotor(Motor[0], 0.7f);
+                SetMotor(Motor[1], 1.0f); //take the line on the left
+                while(GetTime()-time1<0.5){} //run for half a second
+            }
+            else
+                LineFollow(fLine);
+            break;
+
+        case "LINE2/5":
+            LineSensorReadArray(gls, fLine);
+            LineThreshold(fLine);
+            if(IntersectCheck(fLine){
+                intersect++;
+                if(intersect%2 ==1){ //one loop around the middle
+                    state = 3; //SCORE_3/6
+                    float time1 = GetTime();
+                    SetMotor(Motors[0], 1.0f);
+                    SetMotor(Motors[1], 0.0f); //turn to face middle
+                    while(GetTime()-time1>0.5f){}//half a second
+                    time1 = GetTime(); //update reference point
+                    SetMotor(Motors[0], 1.0f);
+                    SetMotor(Motors[0], 1.0f);
+                    while(GetTime()-time1<0.3f){} //get off the intersection
+                }
+            else
+                LineFollow(fLine);
+            break;
+
+            case "SCORE_3/6": //score ping pong
+                LineSensorReadArray(gls, fLine);
+                LineThreshold(fLine); //why don't I put these 2 together?
+                if(ADCRead(Adc[0])>0.3f){ //approaching wall
+                    SetMotor(Motors[0], 1.0f);
+                    SetMotor(Motors[1], 1.0f);
+                    while(ADCRead(Adc[0]<0.5f){} //not too close
+                    moveGate(); //hold in marbles
+                    float speed = 1.0f;
+                    while(ADCRead(speed>0.0f){
+                        SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
+                        SetMotor(Motors[1], SATURATE(0.0f,speed,1,0f));
+                        speed = speed-0.2f;
+                    } //pseudo deccelearte to score
+                    state = 4; //WALL_6/5/4
+                    float time1 = GetTime();
+                    SetMotor(Motors[0], -0.3f);
+                    SetMotor(Motors[1], -0.3f);
+                    while(GetTime()-time1 <0.3f){} //backup out of the wall
+                    moveGate(); //grab more marbles
+                    time1 = GetTime(); //update reference point
+                    SetMotor(Motors[0],1.0f);
+                    SetMotor(Motors[1], 0.5f);
+                    while(GetTime()-time1<0.4f){} //turn right
+                }
+                else
+                    LineFollow(fLine);
+                break;
+
+            case "WALL_6/5/4":
+                LineSensorReadArray(gls, fline);
+                LineThreshold(fLine); //why do I not just run this before the switch
+
+                if(intersectCheck(fLine){ //reached goal on other side
+                    moveGate(); //hold in marbles while adjusting
+                    float time1 = GetTime();
+                    SetMotor(Motors[0], -1.0f);
+                    SetMotor(Motors[1],-1.0f);
+                    while(GetTime()-time1<0.3f){}//backup
+                    time1 = GetTime();
+                    SetTime(Motors[0], 1.0f);
+                    SetMotor(Motors[1], 0.4f);
+                    while(!intersectCheck(fLine)){}//foward and right to line
+                    time1 =GetTime();
+                    SetTime(Motors[0], -1.0f);
+                    SetTime(Motors[1], 1.0f);
+                    while(GetTime()-time1<0.4f){} //turn to face wall
+                    state = 2; //SCORE_1/4
+                }
+                else
+                    WallFollow();
+                break;
+
+            case "SCORE_1/4": //this is in the order it happens, not the ordered it's stored
+                
+
     }
 }
