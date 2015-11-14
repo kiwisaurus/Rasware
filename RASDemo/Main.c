@@ -83,7 +83,7 @@ void WallFollow(void){
     SetMotor(Motors[0] , SATURATE(0.0f, speedL, 1.0f));
     SetMotor(Motors[1], SATURATE(0.0f, speedR, 1.0f));
 }
-void lineThreshold(float *fLine){
+void LineThreshold(float *fLine){
     float treshold = 0.4f;//change this
     for(int i =0; i<8; i++){
         if(fLine[i]>=threshold)
@@ -116,8 +116,8 @@ void kill(void){
 }
 
 int main(void){
-    CallIn(kill(), nil, 120);
-    InitializedSystemTime(); //not accurate for long times
+    CallIn(kill, 0, 120);
+    InitializeSystemTime(); //not accurate for long times
     initMotor();
     initADC();
     initGLine();
@@ -145,7 +145,7 @@ int main(void){
             LineThreshold(fLine); //call everytime we read array
             if(IntersectCheck(fLine)){
                 statePos = 1; //advance state
-                intersect++;
+                intersects++;
                 float time1 = GetTime();
                 SetMotor(Motor[0], 0.7f);
                 SetMotor(Motor[1], 1.0f); //take the line on the left
