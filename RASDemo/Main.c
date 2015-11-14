@@ -83,14 +83,14 @@ void WallFollow(void){
     SetMotor(Motors[0] , SATURATE(0.0f, speedL, 1.0f));
     SetMotor(Motors[1], SATURATE(0.0f, speedR, 1.0f));
 }
-void lineThreshold(float *fLine[8]){
+void lineThreshold(float *fLine){
     float treshold = 0.4f;//change this
     for(int i =0; i<8; i++){
         if(fLine[i]>=threshold)
             fLine[i] =1; //pseudo boolean
 }
 
-void LineFollow(float *fLine[8]){
+void LineFollow(float *fLine){
     float speedL = 1.0f;
     float speedR = 1.0f;
 
@@ -100,7 +100,7 @@ void LineFollow(float *fLine[8]){
     SetMotor(Motors[0], SATURATE(0.0f, speedL, 1.0f));
     SetMotor(Motors[1], SATURATE(0.0f, speedR, 1.0f));
 }
-tBoolean IntersectCheck(float *fLine[8]){
+tBoolean IntersectCheck(float *fLine){
     int sum =0;
     for(int i =0;i<8;i++)
         sum = sum+fLine[i];
