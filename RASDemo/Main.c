@@ -114,7 +114,7 @@ void kill(void){
     while(1){}
 }
 int main(void){
-    CallIn(kill(), void, 120);
+    CallIn(kill, null, 120);
     InitializedSystemTime(); //not accurate for long times
     initMotor();
     initADC();
