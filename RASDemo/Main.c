@@ -204,7 +204,7 @@ int main(void){
                 break;
 
             case 4:
-                LineSensorReadArray(gls, fline);
+                LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why do I not just run this before the switch
 
                 if(IntersectCheck(fLine)){ //reached goal on other side
@@ -214,11 +214,11 @@ int main(void){
                     SetMotor(Motors[1],-1.0f);
                     while(GetTime()-time1<0.3f){}//backup
                     time1 = GetTime();
-                    SetMotors(Motors[0], 1.0f);
+                    SetMotor(Motors[0], 1.0f);
                     SetMotor(Motors[1], 0.4f);
                     while(!intersectCheck(fLine)){}//foward and right to line
                     time1 =GetTime();
-                    SetTime(Motors[0], -1.0f);
+                    SetMotor(Motors[0], -1.0f);
                     SetTime(Motors[1], 1.0f);
                     while(GetTime()-time1<0.4f){} //turn to face wall
                     statePos = 2; //SCORE_1/4
