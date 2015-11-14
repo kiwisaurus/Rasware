@@ -236,7 +236,7 @@ int main(void){
                     while(ADCRead(Adc[0])<0.5f){} //not too close
                     moveGate(); //open gate
                     float speed = 1.0f;
-                    while(ADCRead(speed>0.0f){
+                    while(speed>0.0f){
                         SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
                         SetMotor(Motors[1], SATURATE(0.0f,speed,1.0f));
                         speed = speed-0.2f;
@@ -252,7 +252,7 @@ int main(void){
                     while(GetTime()-time1<0.4f){} //turn right
                 }
                 else
-                    LineFollow();
+                    LineFollow(fLine);
                 break;
                 
                 case 5:
