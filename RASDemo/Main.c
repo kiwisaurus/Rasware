@@ -116,7 +116,7 @@ void kill(void){
 }
 
 int main(void){
-    CallIn(kill(), null, 120);
+    CallIn(kill(), nil, 120);
     InitializedSystemTime(); //not accurate for long times
     initMotor();
     initADC();
