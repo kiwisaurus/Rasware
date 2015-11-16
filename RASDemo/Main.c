@@ -12,7 +12,7 @@ static tMotor *Motors[2];
 static tADC *Adc[2];
 static tLineSensor *gls;
 static tPWM *gate;
-static tBoolean gatePos = true;
+static tBoolean gatePos = false;
 
 void initMotor(void){
     if(!initialized[0]){
@@ -108,8 +108,13 @@ tBoolean IntersectCheck(float *fLine[8]){
         return true;
     return false;
 }
-
+void kill(void){
+    SetMotor(Motors[0], 0.0f);
+    SetMotor(Motors[1], 0.0f);
+    while(1){}
+}
 int main(void){
+    CallIn(kill(), void, 120);
     InitializedSystemTime(); //not accurate for long times
     initMotor();
     initADC();
@@ -119,12 +124,13 @@ int main(void){
     int stage =1;
     tBoolean tLine[8];
     int intersects =0;
-
-    char*state[7] = {       //state machine
+    moveGate(); //open gate
+    
+    char *state[8] = {       //state machine
         "START", "LINE_2/5", 
         "SCORE_1/4","SCORE_3/6",
         "WALL_6/5/4","WALL_1/2/3",
-        "RETURN"
+        "SCORE_3/6R", "RETURN"
     };
     int statePos = 0; //used to traverse states
 
@@ -153,8 +159,8 @@ int main(void){
             if(IntersectCheck(fLine){
                 intersect++;
                 if(intersect%2 ==1){ //one loop around the middle
-                    state = 3; //SCORE_3/6
-                    float time1 = GetTime();
+                    statePos = 3; //SCORE_3/6
+                    float time1 = GetTime()mov;
                     SetMotor(Motors[0], 1.0f);
                     SetMotor(Motors[1], 0.0f); //turn to face middle
                     while(GetTime()-time1>0.5f){}//half a second
@@ -163,6 +169,7 @@ int main(void){
                     SetMotor(Motors[0], 1.0f);
                     while(GetTime()-time1<0.3f){} //get off the intersection
                 }
+            }
             else
                 LineFollow(fLine);
             break;
@@ -181,7 +188,7 @@ int main(void){
                         SetMotor(Motors[1], SATURATE(0.0f,speed,1,0f));
                         speed = speed-0.2f;
                     } //pseudo deccelearte to score
-                    state = 4; //WALL_6/5/4
+                    statePos = 4; //WALL_6/5/4
                     float time1 = GetTime();
                     SetMotor(Motors[0], -0.3f);
                     SetMotor(Motors[1], -0.3f);
@@ -221,7 +228,119 @@ int main(void){
                 break;
 
             case "SCORE_1/4": //this is in the order it happens, not the ordered it's stored
+                LineSensorReadArray(gls, fLine);
+                LineThreshold(fLine); //why don't I put these 2 together?
+                if(ADCRead(Adc[0])>0.3f){ //approaching wall
+                    SetMotor(Motors[0], 1.0f);
+                    SetMotor(Motors[1], 1.0f);
+                    while(ADCRead(Adc[0]<0.5f){} //not too close
+                    moveGate(); //open gate
+                    float speed = 1.0f;
+                    while(ADCRead(speed>0.0f){
+                        SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
+                        SetMotor(Motors[1], SATURATE(0.0f,speed,1,0f));
+                        speed = speed-0.2f;
+                    } //pseudo deccelearte to score
+                    statePos = 5; //WALL_1/2/3
+                    float time1 = GetTime();
+                    SetMotor(Motors[0], -0.3f);
+                    SetMotor(Motors[1], -0.3f);
+                    while(GetTime()-time1 <0.3f){} //backup out of the wall
+                    time1 = GetTime(); //update reference point
+                    SetMotor(Motors[0],1.0f);
+                    SetMotor(Motors[1], 0.5f);
+                    while(GetTime()-time1<0.4f){} //turn right
+                }
+                else
+                    LineFollow();
+                break;
                 
+                case "WALL_1/2/3":
+                    LineSensorReadArray(gls, fline);
+                LineThreshold(fLine); //why do I not just run this before the switch
 
+                if(intersectCheck(fLine){ //reached goal on other side
+                    moveGate(); //hold in marbles while adjusting
+                    float time1 = GetTime();
+                    SetMotor(Motors[0], -1.0f);
+                    SetMotor(Motors[1],-1.0f);
+                    while(GetTime()-time1<0.3f){}//backup
+                    time1 = GetTime();
+                    SetTime(Motors[0], 1.0f);
+                    SetMotor(Motors[1], 0.4f);
+                    while(!intersectCheck(fLine)){}//foward and right to line
+                    time1 =GetTime();
+                    SetTime(Motors[0], -1.0f);
+                    SetTime(Motors[1], 1.0f);
+                    while(GetTime()-time1<0.4f){} //turn to face wall
+                    statePos = 6; //SCORE_3/6R
+                }
+                else
+                    WallFollow();
+                break;
+            
+            case "SCORE_3/6R": //score in 3/6 then return to starting position
+            //assume gate is closed
+                LineSensorReadArray(gls, fLine);
+                LineThreshold(fLine); //why don't I put these 2 together?
+                if(ADCRead(Adc[0])>0.3f){ //approaching wall
+                    SetMotor(Motors[0], 1.0f);
+                    SetMotor(Motors[1], 1.0f);
+                    while(ADCRead(Adc[0]<0.5f){} //not too close
+                    float speed = 1.0f;
+                    while(ADCRead(speed>0.0f){
+                        SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
+                        SetMotor(Motors[1], SATURATE(0.0f,speed,1,0f));
+                        speed = speed-0.2f;
+                    } //pseudo deccelearte to score
+                    statePos = 7; //RETURN
+                    float time1 = GetTime();
+                    SetMotor(Motors[0],-1.0f);
+                    SetMotor(Motors[1],-1.0f);
+                    while(GetTime()-time1<0.2f){}//back up
+                    time1=GetTime();
+                    SetMotor(Motors[0],-1.0f);
+                    SetMotor(Motors[1],1.0f);
+                    while(GetTime()-time1<0.3f){}//turn around 180
+                    moveGate(); //open for marbles
+                }
+                else
+                    LineFollow(fLine);
+                break;
+                
+            case "RETURN":
+                LineSensorReadArray(fLine);
+                LineThreshold(fLine); //I literally do this every time
+                if(ADCRead(Adc[0])>0.3f){ //made it to wall
+                    float speed = 1.0f;
+                    while(ADCRead(speed>0.0f){
+                        SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
+                        SetMotor(Motors[1], SATURATE(0.0f,speed,1,0f));
+                        speed = speed-0.2f;
+                    } //pseudo deccelearte to score    
+                    float time1 = GetTime();
+                    SetMotor(Motors[0],-1.0f);
+                    SetMotor(Motors[1],-1.0f);
+                    while(GetTime()-time1<0.2f){}//back up
+                    time1=GetTime();
+                    SetMotor(Motors[0],-1.0f);
+                    SetMotor(Motors[1],1.0f);
+                    while(GetTime()-time1<0.3f){}//turn around 180
+                    statePos= 0 //reset to START;
+                }
+                else if(intersectCheck(fLine)){
+                    float time1 = GetTime();
+                    SetMotor(Motors[0], 1.0f);
+                    SetMotor(Motors[1], 1.0f);
+                    while(GetTime()-time1<0.2f){}
+                }
+                else
+                    LineFollow();
+                break;
+                
+            default:
+                SetPin(PIN_F1,true);
+                break;
+        }
     }
 }
