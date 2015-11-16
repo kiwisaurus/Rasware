@@ -270,10 +270,10 @@ int main(void){
                     time1 = GetTime();
                     SetTime(Motors[0], 1.0f);
                     SetMotor(Motors[1], 0.4f);
-                    while(!intersectCheck(fLine)){}//foward and right to line
+                    while(!IntersectCheck(fLine)){}//foward and right to line
                     time1 =GetTime();
-                    SetTime(Motors[0], -1.0f);
-                    SetTime(Motors[1], 1.0f);
+                    SetMotors(Motors[0], -1.0f);
+                    SetMotors(Motors[1], 1.0f);
                     while(GetTime()-time1<0.4f){} //turn to face wall
                     statePos = 6; //SCORE_3/6R
                 }
@@ -288,7 +288,7 @@ int main(void){
                 if(ADCRead(Adc[0])>0.3f){ //approaching wall
                     SetMotor(Motors[0], 1.0f);
                     SetMotor(Motors[1], 1.0f);
-                    while(ADCRead(Adc[0]<0.5f){} //not too close
+                    while(ADCRead(Adc[0])<0.5f){} //not too close
                     float speed = 1.0f;
                     while(ADCRead(speed>0.0f){
                         SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
