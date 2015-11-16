@@ -290,7 +290,7 @@ int main(void){
                     SetMotor(Motors[1], 1.0f);
                     while(ADCRead(Adc[0])<0.5f){} //not too close
                     float speed = 1.0f;
-                    while(ADCRead(speed>0.0f){
+                    while(speed>0.0f){
                         SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
                         SetMotor(Motors[1], SATURATE(0.0f,speed,1.0f));
                         speed = speed-0.2f;
@@ -311,7 +311,7 @@ int main(void){
                 break;
                 
             case 7:
-                LineSensorReadArray(fLine);
+                LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //I literally do this every time
                 if(ADCRead(Adc[0])>0.3f){ //made it to wall
                     float speed = 1.0f;
