@@ -156,7 +156,7 @@ int main(void){
         case "LINE2/5":
             LineSensorReadArray(gls, fLine);
             LineThreshold(fLine);
-            if(IntersectCheck(fLine){
+            if(IntersectCheck(fLine)){
                 intersect++;
                 if(intersect%2 ==1){ //one loop around the middle
                     statePos = 3; //SCORE_3/6
@@ -185,7 +185,7 @@ int main(void){
                     float speed = 1.0f;
                     while(ADCRead(speed>0.0f){
                         SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
-                        SetMotor(Motors[1], SATURATE(0.0f,speed,1,0f));
+                        SetMotor(Motors[1], SATURATE(0.0f,speed,1.0f));
                         speed = speed-0.2f;
                     } //pseudo deccelearte to score
                     statePos = 4; //WALL_6/5/4
@@ -238,7 +238,7 @@ int main(void){
                     float speed = 1.0f;
                     while(ADCRead(speed>0.0f){
                         SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
-                        SetMotor(Motors[1], SATURATE(0.0f,speed,1,0f));
+                        SetMotor(Motors[1], SATURATE(0.0f,speed,1.0f));
                         speed = speed-0.2f;
                     } //pseudo deccelearte to score
                     statePos = 5; //WALL_1/2/3
@@ -290,7 +290,7 @@ int main(void){
                     float speed = 1.0f;
                     while(ADCRead(speed>0.0f){
                         SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
-                        SetMotor(Motors[1], SATURATE(0.0f,speed,1,0f));
+                        SetMotor(Motors[1], SATURATE(0.0f,speed,1.0f));
                         speed = speed-0.2f;
                     } //pseudo deccelearte to score
                     statePos = 7; //RETURN
@@ -315,7 +315,7 @@ int main(void){
                     float speed = 1.0f;
                     while(ADCRead(speed>0.0f){
                         SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
-                        SetMotor(Motors[1], SATURATE(0.0f,speed,1,0f));
+                        SetMotor(Motors[1], SATURATE(0.0f,speed,1.0f));
                         speed = speed-0.2f;
                     } //pseudo deccelearte to score    
                     float time1 = GetTime();
