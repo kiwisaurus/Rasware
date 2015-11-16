@@ -147,8 +147,8 @@ int main(void){
                 statePos = 1; //advance state
                 intersect++;
                 float time1 = GetTime();
-                SetMotor(Motor[0], 0.7f);
-                SetMotor(Motor[1], 1.0f); //take the line on the left
+                SetMotor(Motors[0], 0.7f);
+                SetMotor(Motosr[1], 1.0f); //take the line on the left
                 while(GetTime()-time1<0.5){} //run for half a second
             }
             else
@@ -159,7 +159,7 @@ int main(void){
             LineSensorReadArray(gls, fLine);
             LineThreshold(fLine);
             if(IntersectCheck(fLine)){
-                intersect++;
+                intersects++;
                 if(intersect%2 ==1){ //one loop around the middle
                     statePos = 3; //SCORE_3/6
                     float time1 = GetTime();
@@ -258,10 +258,10 @@ int main(void){
                 break;
                 
                 case 5:
-                    LineSensorReadArray(gls, fline);
+                    LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why do I not just run this before the switch
 
-                if(intersectCheck(fLine){ //reached goal on other side
+                if(IntersectCheck(fLine){ //reached goal on other side
                     moveGate(); //hold in marbles while adjusting
                     float time1 = GetTime();
                     SetMotor(Motors[0], -1.0f);
