@@ -153,14 +153,14 @@ int main(void){
                 LineFollow(fLine);
             break;
 
-        case "LINE2/5":
+        case "LINE_2/5":
             LineSensorReadArray(gls, fLine);
             LineThreshold(fLine);
             if(IntersectCheck(fLine)){
                 intersect++;
                 if(intersect%2 ==1){ //one loop around the middle
                     statePos = 3; //SCORE_3/6
-                    float time1 = GetTime()mov;
+                    float time1 = GetTime();
                     SetMotor(Motors[0], 1.0f);
                     SetMotor(Motors[1], 0.0f); //turn to face middle
                     while(GetTime()-time1>0.5f){}//half a second
@@ -180,10 +180,10 @@ int main(void){
                 if(ADCRead(Adc[0])>0.3f){ //approaching wall
                     SetMotor(Motors[0], 1.0f);
                     SetMotor(Motors[1], 1.0f);
-                    while(ADCRead(Adc[0]<0.5f){} //not too close
+                    while(ADCRead(Adc[0])<0.5f){} //not too close
                     moveGate(); //hold in marbles
                     float speed = 1.0f;
-                    while(ADCRead(speed>0.0f){
+                    while(speed>0.0f){
                         SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
                         SetMotor(Motors[1], SATURATE(0.0f,speed,1.0f));
                         speed = speed-0.2f;
