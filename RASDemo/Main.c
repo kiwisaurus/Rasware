@@ -207,21 +207,21 @@ int main(void){
                 LineSensorReadArray(gls, fline);
                 LineThreshold(fLine); //why do I not just run this before the switch
 
-                if(intersectCheck(fLine)){ //reached goal on other side
+                if(IntersectCheck(fLine)){ //reached goal on other side
                     moveGate(); //hold in marbles while adjusting
                     float time1 = GetTime();
                     SetMotor(Motors[0], -1.0f);
                     SetMotor(Motors[1],-1.0f);
                     while(GetTime()-time1<0.3f){}//backup
                     time1 = GetTime();
-                    SetTime(Motors[0], 1.0f);
+                    SetMotors(Motors[0], 1.0f);
                     SetMotor(Motors[1], 0.4f);
                     while(!intersectCheck(fLine)){}//foward and right to line
                     time1 =GetTime();
                     SetTime(Motors[0], -1.0f);
                     SetTime(Motors[1], 1.0f);
                     while(GetTime()-time1<0.4f){} //turn to face wall
-                    state = 2; //SCORE_1/4
+                    statePos = 2; //SCORE_1/4
                 }
                 else
                     WallFollow();
@@ -233,7 +233,7 @@ int main(void){
                 if(ADCRead(Adc[0])>0.3f){ //approaching wall
                     SetMotor(Motors[0], 1.0f);
                     SetMotor(Motors[1], 1.0f);
-                    while(ADCRead(Adc[0]<0.5f){} //not too close
+                    while(ADCRead(Adc[0])<0.5f){} //not too close
                     moveGate(); //open gate
                     float speed = 1.0f;
                     while(ADCRead(speed>0.0f){
