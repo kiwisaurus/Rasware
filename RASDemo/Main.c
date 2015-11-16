@@ -14,6 +14,10 @@ static tLineSensor *gls;
 static tPWM *gate;
 static tBoolean gatePos = false;
 
+void Blink(void){
+    SetPin(PIN_F1, true);
+    SetPin(PIN_F1, false);
+}
 void initMotor(void){
     if(!initialized[0]){
         initialized[0] = true;
@@ -142,6 +146,7 @@ int main(void){
         switch(statePos){
 
         case 0:
+            Blink();
             LineSensorReadArray(gls, fLine);
             LineThreshold(fLine); //call everytime we read array
             if(IntersectCheck(fLine)){
@@ -157,6 +162,7 @@ int main(void){
             break;
 
         case 1:
+        Blink();Blink();
             LineSensorReadArray(gls, fLine);
             LineThreshold(fLine);
             if(IntersectCheck(fLine)){
@@ -178,6 +184,7 @@ int main(void){
             break;
 
             case 3: //score ping pong
+            Blink();Blink();Blink();
                 LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why don't I put these 2 together?
                 if(ADCRead(Adc[0])>0.3f){ //approaching wall
@@ -207,6 +214,7 @@ int main(void){
                 break;
 
             case 4:
+            Blink();Blink();Blink();Blink();
                 LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why do I not just run this before the switch
 
@@ -231,6 +239,7 @@ int main(void){
                 break;
 
             case 2: //this is in the order it happens, not the ordered it's stored
+            Blink();Blink();Blink();Blink();Blink();
                 LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why don't I put these 2 together?
                 if(ADCRead(Adc[0])>0.3f){ //approaching wall
@@ -259,6 +268,7 @@ int main(void){
                 break;
                 
                 case 5:
+                Blink();Blink();Blink();Blink();Blink();Blink();
                     LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why do I not just run this before the switch
 
@@ -284,6 +294,7 @@ int main(void){
             
             case 6: //score in 3/6 then return to starting position
             //assume gate is closed
+            Blink();Blink();Blink();Blink();Blink();Blink();Blink();
                 LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why don't I put these 2 together?
                 if(ADCRead(Adc[0])>0.3f){ //approaching wall
@@ -312,6 +323,7 @@ int main(void){
                 break;
                 
             case 7:
+            Blink();Blink();Blink();Blink();Blink();Blink();Blink();
                 LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //I literally do this every time
                 if(ADCRead(Adc[0])>0.3f){ //made it to wall
