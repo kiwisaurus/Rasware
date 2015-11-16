@@ -207,7 +207,7 @@ int main(void){
                 LineSensorReadArray(gls, fline);
                 LineThreshold(fLine); //why do I not just run this before the switch
 
-                if(intersectCheck(fLine){ //reached goal on other side
+                if(intersectCheck(fLine)){ //reached goal on other side
                     moveGate(); //hold in marbles while adjusting
                     float time1 = GetTime();
                     SetMotor(Motors[0], -1.0f);
