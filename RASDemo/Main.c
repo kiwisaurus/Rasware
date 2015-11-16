@@ -88,6 +88,7 @@ void LineThreshold(float *fLine){
     for(int i =0; i<8; i++){
         if(fLine[i]>=threshold)
             fLine[i] =1; //pseudo boolean
+    }
 }
 
 void LineFollow(float *fLine){
