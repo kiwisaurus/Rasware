@@ -120,7 +120,7 @@ int main(void){
     initADC();
     initGLine();
     LineSensorReadContinuously(gls, 0.2f);
-    float *fLine[8];
+    float *fLine;
     int stage =1;
     tBoolean tLine[8];
     int intersects =0;
@@ -216,10 +216,10 @@ int main(void){
                     time1 = GetTime();
                     SetMotor(Motors[0], 1.0f);
                     SetMotor(Motors[1], 0.4f);
-                    while(!intersectCheck(fLine)){}//foward and right to line
+                    while(!IntersectCheck(fLine)){}//foward and right to line
                     time1 =GetTime();
                     SetMotor(Motors[0], -1.0f);
-                    SetTime(Motors[1], 1.0f);
+                    SetMotor(Motors[1], 1.0f);
                     while(GetTime()-time1<0.4f){} //turn to face wall
                     statePos = 2; //SCORE_1/4
                 }
