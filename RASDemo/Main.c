@@ -84,7 +84,7 @@ void WallFollow(void){
     SetMotor(Motors[1], SATURATE(0.0f, speedR, 1.0f));
 }
 void LineThreshold(float *fLine){
-    float treshold = 0.4f;//change this
+    float threshold = 0.4f;//change this
     for(int i =0; i<8; i++){
         if(fLine[i]>=threshold)
             fLine[i] =1; //pseudo boolean
@@ -148,7 +148,7 @@ int main(void){
                 intersects++;
                 float time1 = GetTime();
                 SetMotor(Motors[0], 0.7f);
-                SetMotor(Motosr[1], 1.0f); //take the line on the left
+                SetMotor(Motors[1], 1.0f); //take the line on the left
                 while(GetTime()-time1<0.5){} //run for half a second
             }
             else
@@ -160,7 +160,7 @@ int main(void){
             LineThreshold(fLine);
             if(IntersectCheck(fLine)){
                 intersects++;
-                if(intersect%2 ==1){ //one loop around the middle
+                if(intersects%2 ==1){ //one loop around the middle
                     statePos = 3; //SCORE_3/6
                     float time1 = GetTime();
                     SetMotor(Motors[0], 1.0f);
@@ -261,7 +261,7 @@ int main(void){
                     LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why do I not just run this before the switch
 
-                if(IntersectCheck(fLine){ //reached goal on other side
+                if(IntersectCheck(fLine)){ //reached goal on other side
                     moveGate(); //hold in marbles while adjusting
                     float time1 = GetTime();
                     SetMotor(Motors[0], -1.0f);
