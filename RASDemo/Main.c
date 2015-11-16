@@ -268,12 +268,12 @@ int main(void){
                     SetMotor(Motors[1],-1.0f);
                     while(GetTime()-time1<0.3f){}//backup
                     time1 = GetTime();
-                    SetTime(Motors[0], 1.0f);
+                    SetMotor(Motors[0], 1.0f);
                     SetMotor(Motors[1], 0.4f);
                     while(!IntersectCheck(fLine)){}//foward and right to line
                     time1 =GetTime();
-                    SetMotors(Motors[0], -1.0f);
-                    SetMotors(Motors[1], 1.0f);
+                    SetMotor(Motors[0], -1.0f);
+                    SetMotor(Motors[1], 1.0f);
                     while(GetTime()-time1<0.4f){} //turn to face wall
                     statePos = 6; //SCORE_3/6R
                 }
@@ -328,7 +328,7 @@ int main(void){
                     SetMotor(Motors[0],-1.0f);
                     SetMotor(Motors[1],1.0f);
                     while(GetTime()-time1<0.3f){}//turn around 180
-                    statePos= 0 //reset to START;
+                    statePos= 0; //reset to START;
                 }
                 else if(IntersectCheck(fLine)){
                     float time1 = GetTime();
