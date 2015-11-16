@@ -136,9 +136,9 @@ int main(void){
 
 
     while(1){
-        switch(state[statePos]){
+        switch(statePos){
 
-        case "START":
+        case 0:
             LineSensorReadArray(gls, fLine);
             LineThreshold(fLine); //call everytime we read array
             if(IntersectCheck(fLine)){
@@ -153,7 +153,7 @@ int main(void){
                 LineFollow(fLine);
             break;
 
-        case "LINE_2/5":
+        case 1:
             LineSensorReadArray(gls, fLine);
             LineThreshold(fLine);
             if(IntersectCheck(fLine)){
@@ -174,7 +174,7 @@ int main(void){
                 LineFollow(fLine);
             break;
 
-            case "SCORE_3/6": //score ping pong
+            case 3: //score ping pong
                 LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why don't I put these 2 together?
                 if(ADCRead(Adc[0])>0.3f){ //approaching wall
@@ -203,7 +203,7 @@ int main(void){
                     LineFollow(fLine);
                 break;
 
-            case "WALL_6/5/4":
+            case 4:
                 LineSensorReadArray(gls, fline);
                 LineThreshold(fLine); //why do I not just run this before the switch
 
@@ -227,7 +227,7 @@ int main(void){
                     WallFollow();
                 break;
 
-            case "SCORE_1/4": //this is in the order it happens, not the ordered it's stored
+            case 2: //this is in the order it happens, not the ordered it's stored
                 LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why don't I put these 2 together?
                 if(ADCRead(Adc[0])>0.3f){ //approaching wall
@@ -255,7 +255,7 @@ int main(void){
                     LineFollow();
                 break;
                 
-                case "WALL_1/2/3":
+                case 5:
                     LineSensorReadArray(gls, fline);
                 LineThreshold(fLine); //why do I not just run this before the switch
 
@@ -279,7 +279,7 @@ int main(void){
                     WallFollow();
                 break;
             
-            case "SCORE_3/6R": //score in 3/6 then return to starting position
+            case 6: //score in 3/6 then return to starting position
             //assume gate is closed
                 LineSensorReadArray(gls, fLine);
                 LineThreshold(fLine); //why don't I put these 2 together?
@@ -308,7 +308,7 @@ int main(void){
                     LineFollow(fLine);
                 break;
                 
-            case "RETURN":
+            case 7:
                 LineSensorReadArray(fLine);
                 LineThreshold(fLine); //I literally do this every time
                 if(ADCRead(Adc[0])>0.3f){ //made it to wall
