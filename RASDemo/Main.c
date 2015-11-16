@@ -315,7 +315,7 @@ int main(void){
                 LineThreshold(fLine); //I literally do this every time
                 if(ADCRead(Adc[0])>0.3f){ //made it to wall
                     float speed = 1.0f;
-                    while(ADCRead(speed>0.0f){
+                    while(speed>0.0f){
                         SetMotor(Motors[0], SATURATE(0.0f,speed,1.0f));
                         SetMotor(Motors[1], SATURATE(0.0f,speed,1.0f));
                         speed = speed-0.2f;
@@ -330,14 +330,14 @@ int main(void){
                     while(GetTime()-time1<0.3f){}//turn around 180
                     statePos= 0 //reset to START;
                 }
-                else if(intersectCheck(fLine)){
+                else if(IntersectCheck(fLine)){
                     float time1 = GetTime();
                     SetMotor(Motors[0], 1.0f);
                     SetMotor(Motors[1], 1.0f);
                     while(GetTime()-time1<0.2f){}
                 }
                 else
-                    LineFollow();
+                    LineFollow(fLine);
                 break;
                 
             default:
